@@ -6,6 +6,7 @@ import 'package:bmi_calculator/contants.dart';
 import 'package:bmi_calculator/screens/results_page.dart';
 import 'package:bmi_calculator/components/bottom_button.dart';
 import 'package:bmi_calculator/components/round_icon_button.dart';
+import 'calculator_brain.dart';
 
 enum Gender {
   male,
@@ -47,7 +48,7 @@ class _InputPageState extends State<InputPage> {
                       : kInactiveCardColour,
                   cardChild: IconContent(
                     icon: FontAwesomeIcons.mars,
-                    label: 'MALE',
+                    label: 'MASC',
                   ),
                 ),
               ),
@@ -63,7 +64,7 @@ class _InputPageState extends State<InputPage> {
                       : kInactiveCardColour,
                   cardChild: IconContent(
                     icon: FontAwesomeIcons.venus,
-                    label: 'FEMALE',
+                    label: 'FEM',
                   ),
                 ),
               ),
@@ -76,7 +77,7 @@ class _InputPageState extends State<InputPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'HEIGHT',
+                    'ALTURA',
                     style: kLabelTextStyle,
                   ),
                   Row(
@@ -101,7 +102,7 @@ class _InputPageState extends State<InputPage> {
                       thumbColor: Color(0xFFEB1555),
                       overlayColor: Color(0x29EB1555),
                       thumbShape:
-                          RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                          RoundSliderThumbShape(enabledThumbRadius: 10.0),
                       overlayShape:
                           RoundSliderOverlayShape(overlayRadius: 30.0),
                     ),
@@ -130,7 +131,7 @@ class _InputPageState extends State<InputPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'WEIGHT',
+                        'PESO',
                         style: kLabelTextStyle,
                       ),
                       Text(
@@ -172,7 +173,7 @@ class _InputPageState extends State<InputPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'AGE',
+                        'IDADE',
                         style: kLabelTextStyle,
                       ),
                       Text(
@@ -210,10 +211,20 @@ class _InputPageState extends State<InputPage> {
             ],
           )),
           BottomButtom(
-            buttonTitle: 'CALCULATE',
+            buttonTitle: 'CALCULAR',
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ResultsPage()));
+              CalculatorBrain calc =
+                  CalculatorBrain(height: height, weight: weight);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ResultsPage(
+                    bmiResult: calc.calculateBMI(),
+                    resultText: calc.getResult(),
+                    interpretation: calc.getInterpretation(),
+                  ),
+                ),
+              );
             },
           ),
         ],
